@@ -56,7 +56,7 @@ git push -u origin master
 *¡Listo! Tus archivos (README, Backlog, etc.) ya estarán en la nube de GitHub.*
 
 ### Paso 3: Flujo de Trabajo (Git Flow recomendado)
-Para que no se sobreescriban el código entre los miembros del equipo de 6 a 8 personas:
+Para que no se sobreescriban el código entre los 3 miembros del equipo:
 1. **Nadie trabaja en la rama `master` (o `main`) directamente.**
 2. Cada vez que alguien vaya a programar una funcionalidad (ej. la US-01), debe crear una rama nueva:
    ```bash

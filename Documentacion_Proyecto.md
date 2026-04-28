@@ -9,12 +9,9 @@
 ## 2. Integrantes del Grupo
 | Nombre y Apellido | Mail | Legajo | Rol Interno (Opcional) |
 | :--- | :--- | :--- | :--- |
-| [Nombre Alumno 1] | [email@alumno1.com] | [Legajo 1] | Scrum Master |
-| [Nombre Alumno 2] | [email@alumno2.com] | [Legajo 2] | Developer |
-| [Nombre Alumno 3] | [email@alumno3.com] | [Legajo 3] | Developer |
-| [Nombre Alumno 4] | [email@alumno4.com] | [Legajo 4] | Developer |
-| [Nombre Alumno 5] | [email@alumno5.com] | [Legajo 5] | Developer |
-| [Nombre Alumno 6] | [email@alumno6.com] | [Legajo 6] | Developer |
+| Lautaro Olviero | [Completar Mail] | [Completar Legajo] | Scrum Master / Developer |
+| Mauricio Encina | [Completar Mail] | [Completar Legajo] | Developer |
+| Luciana Sassia | [Completar Mail] | [Completar Legajo] | Developer |
 
 ## 3. Roles del Sistema y Responsabilidades
 - **Cliente:** Usuario que navega el catálogo, arma carros de compras y confirma pedidos con pago contra entrega.
