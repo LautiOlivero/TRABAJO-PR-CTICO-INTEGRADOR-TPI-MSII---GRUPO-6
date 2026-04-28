@@ -3,7 +3,7 @@
 *Este documento sirve como base para generar el PDF único por equipo que debe actualizarse y presentarse en cada Sprint Review.*
 
 ## 1. Enlaces del Proyecto
-- **Repositorio en GitHub:** [URL del repositorio - Pendiente]
+- **Repositorio en GitHub:** [https://github.com/LautiOlivero/TRABAJO-PR-CTICO-INTEGRADOR-TPI-MSII---GRUPO-6.git](https://github.com/LautiOlivero/TRABAJO-PR-CTICO-INTEGRADOR-TPI-MSII---GRUPO-6.git)
 - **Proyecto en Jira:** [URL del Jira - Pendiente]
 
 ## 2. Integrantes del Grupo
