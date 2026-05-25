@@ -9,8 +9,8 @@
 ## 2. Integrantes del Grupo
 | Nombre y Apellido | Mail | Legajo | Rol Interno (Opcional) |
 | :--- | :--- | :--- | :--- |
-| Lautaro Olviero | [Completar Mail] | [Completar Legajo] | Scrum Master / Developer |
-| Mauricio Encina | [Completar Mail] | [Completar Legajo] | Developer |
+| Lautaro Olviero | lautaroolivero44@gmail.com| 17428 | Scrum Master / Developer |
+| Mauricio Encina | maurixmre@gmail.com | 17360 | Developer |
 | Luciana Sassia |sassialiuciana@gmail.com | 17475| Developer |
 
 ## 3. Roles del Sistema y Responsabilidades
@@ -23,7 +23,7 @@
 
 ## 4. Registro de Sprints
 
-### SPRINT 1
+### SPRINT 0
 
 **1. Objetivo del Sprint:**
 Realizar el análisis funcional y técnico del dominio 'Body Paint', configurar las herramientas de gestión (Jira y GitHub) y definir los criterios de aceptación y estimaciones para las User Stories del cliente y el MVP
@@ -81,5 +81,56 @@ Realizar el análisis funcional y técnico del dominio 'Body Paint', configurar 
     2.	Tecnología: Se utilizará un stack basado en HTML, CSS (Bootstrap) y JavaScript. Esta decisión se fundamenta en la experiencia previa del equipo con estas herramientas, lo que garantiza agilidad en el desarrollo del Frontend y asegura la entrega del MVP en los plazos establecidos, minimizando el riesgo técnico.
 
 
-### SPRINT 2
-*(El formato se repite para los próximos Sprints)*
+### SPRINT 1
+
+1. **Objetivo del Sprint:**
+Configurar el entorno de desarrollo local, establecer la arquitectura de carpetas del proyecto y diseñar la integración inicial con la API externa (MockAPI) para renderizar el catálogo de productos de forma dinámica sobre una interfaz responsiva base.
+2. **Épicas y Tareas seleccionadas para el Sprint Backlog:**
+**Épica:** Desarrollo de la Base Estructural - Parte I: Infraestructura y Datos
+	**Tarea 1:** Configuración de estructura de directorios (/css, /js, /assets).
+    **Tarea 2:** Creación de index.html base con componentes comunes.
+    **Tarea 3:** Setup de recursos y datos iniciales en MockAPI.
+    **Tarea 4:** Desarrollo de la lógica de Fetch para carga de catálogo.
+    **Tarea 5:** Maquetado de Cards de productos con Bootstrap.
+
+3. **Detalle de la Épica y sus Tareas Internas:**
+
+**Épica:** Desarrollo de la Base Estructural - Parte I: Infraestructura y Datos
+• **Descripción:** Configuración inicial del entorno de desarrollo, arquitectura de carpetas y establecimiento de la comunicación con la API externa. El objetivo es tener el catálogo de productos funcional y el esqueleto visual del sitio listo para recibir la lógica de negocio. 
+• **Criterios de Aceptación:** 
+    1. Estructura Base: El proyecto debe contar con la arquitectura de directorios definida y una plantilla base (Boilerplate) con Navbar y Footer funcionales. 
+    2. Conexión a MockAPI: Se deben haber creado las colecciones de clientes, productos y pedidos en la plataforma. 
+    3. Catálogo Dinámico: Los productos mostrados en la galería deben consumirse mediante Fetch desde MockAPI (no deben estar harcodeados en el HTML). 
+    4. Maquetado UI: La interfaz debe ser responsiva y utilizar componentes de Bootstrap para la visualización de productos y el contenedor del carrito. 
+**• Estimación:** Representa el esfuerzo inicial de setup, diseño de la base de datos simulada y la integración de la primera capa de datos con la interfaz. 
+ Esfuerzo Total Épica: 8 (Escala Fibonacci). 
+
+**Tarea 1:** Configuración de estructura de directorios
+    • **Descripción:** Creación y ordenamiento de las carpetas locales del proyecto (/css, /js, /assets) para asegurar una arquitectura limpia. 
+    • ** Estimación:** Esfuerzo mínimo de organización interna.  Esfuerzo: 1 | Complejidad: Baja | Incertidumbre: Baja 
+**Tarea 2:** Creación de index.html base con componentes comunes
+    • Descripción: Armado del esqueleto HTML e integración de las librerías de Bootstrap con Navbar y Footer funcionales.
+    • Estimación: Esfuerzo bajo enfocado en la estructura visual base.
+    Esfuerzo: 1 | Complejidad: Baja | Incertidumbre: Baja
+**Tarea 3:** Setup de recursos y datos iniciales en MockAPI
+    • Descripción: Configuración técnica de la plataforma externa y creación de las colecciones base (users, products, orders) con datos de prueba. 
+    • Estimación: Requiere mapear correctamente los campos necesarios para las historias futuras. Esfuerzo: 2 | Complejidad: Baja | Incertidumbre: Baja 
+**Tarea 4: **Desarrollo de la lógica de Fetch para carga de catálogo 
+    • Descripción: Implementación del script de JavaScript encargado de realizar la petición asíncrona (Fetch API) para obtener los productos de manera dinámica. 
+    • Estimación: Implica manejo de asincronismo y control de errores en las peticiones. Esfuerzo: 2 | Complejidad: Media | Incertidumbre: Baja 
+**Tarea 5: **Maquetado de Cards de productos con Bootstrap 
+    • Descripción: Diseño de la interfaz responsiva de la galería que recibe los datos de la API y los renderiza dinámicamente en pantalla. 
+    • Estimación: Enfoque en estilos estructurados y visualización limpia de los datos inyectados. Esfuerzo: 2 | Complejidad: Baja | Incertidumbre: Baja 
+
+**4. **Resultado del Sprint: **
+Funcionalidades implementadas:**
+Estructura e Infraestructura Base: Inicialización exitosa de las tareas técnicas SCRUM-42, SCRUM-43, SCRUM-44, SCRUM-45 y SCRUM-46, completando el alcance definido para la primera parte de la base estructural.
+**Funcionalidades pendientes o replanificadas:**
+El desarrollo de la Base Estructural - Parte II (Lógica de Carrito y Checkout básico) permanece en el Backlog del proyecto para ser activado en el próximo periodo, manteniendo postergado el código de las historias de usuario principales (US-01, US-02, US-03) hasta contar con dichos cimientos.
+Decisiones relevantes tomadas por el equipo:
+
+**5. Decisiones técnicas:**
+1. Postergación de lógica de almacenamiento local: Se decidió de manera unánime postergar la implementación de LocalStorage para sprints posteriores. Esto reduce la sobrecarga técnica actual del equipo y permite asegurar primero la estabilidad de las peticiones HTTP (Fetch) hacia la API.
+2. Estrategia de Desarrollo Paralelo (Reparto de Tareas): Para mitigar el impacto de la restricción horaria del equipo (estudio y trabajo), la Base Estructural se atomizó en las 5 tareas internas asignadas en paralelo, garantizando que el setup de MockAPI y el maquetado del frontend avanzaran de forma independiente y coordinada.
+
+
