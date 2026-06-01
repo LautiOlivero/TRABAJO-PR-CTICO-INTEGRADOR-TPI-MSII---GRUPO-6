@@ -9,8 +9,8 @@
 ## 2. Integrantes del Grupo
 | Nombre y Apellido | Mail | Legajo | Rol Interno (Opcional) |
 | :--- | :--- | :--- | :--- |
-| Lautaro Olviero | [Completar Mail] | [Completar Legajo] | Scrum Master / Developer |
-| Mauricio Encina | [Completar Mail] | [Completar Legajo] | Developer |
+| Lautaro Olviero | lautaroolivero44@gmail.com | 17428 | Scrum Master / Developer |
+| Mauricio Encina | maurixmre@gmail.com | 17360 | Developer |
 | Luciana Sassia |sassialiuciana@gmail.com | 17475| Developer |
 
 ## 3. Roles del Sistema y Responsabilidades
