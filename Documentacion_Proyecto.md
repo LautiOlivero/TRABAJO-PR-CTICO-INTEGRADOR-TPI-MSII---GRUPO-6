@@ -69,11 +69,14 @@ Realizar el análisis funcional y técnico del dominio 'Body Paint', configurar 
 **4. Resultado del Sprint:**
 **Funcionalidades implementadas:**
 - Configuración del entorno de gestión: Setup de Jira Software con tablero Scrum y creación del repositorio organizacional en GitHub.
--	Análisis funcional y técnico: Definición de Criterios de Aceptación y estimaciones Fibonacci para las historias de usuario asignadas.
--	Definición de Stack Tecnológico: Selección de HTML/JS/Bootstrap y MockAPI como arquitectura base.
+- Análisis funcional y técnico: Definición de Criterios de Aceptación y estimaciones Fibonacci para las historias de usuario asignadas.
+- Definición de Stack Tecnológico: Selección de HTML/JS/Bootstrap y MockAPI como arquitectura base.
+- Configuración de estructura de directorios modular (`/css`, `/js/api`, `/js/pages`).
+- Implementación de la lógica de Fetch para carga de catálogo y persistencia en MockAPI (Productos, Carrito, Usuarios, Pedidos).
+- Creación de `index.html` base y maquetado dinámico de Cards de productos integrando Bootstrap 5.
 
 **Funcionalidades pendientes o replanificadas:** 
-- El desarrollo del código fuente de las User Stories (US-01, US-02, US-03) se traslada al Sprint 2, priorizando en esta etapa la base estructural y técnica del MVP.
+- El desarrollo de las User Stories de negocio específicas (US-01, US-02, US-03) se traslada al Sprint 2, habiéndose completado satisfactoriamente toda la base de desarrollo y conexión del MVP en este Sprint 1.
 
 **5. Decisiones relevantes tomadas por el equipo:**
 **Decisiones técnicas:**
