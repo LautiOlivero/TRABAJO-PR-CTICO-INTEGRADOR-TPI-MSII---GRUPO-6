@@ -1,14 +1,68 @@
-import { obtenerProductos } from '../api/index.js';
+import { obtenerProductos, crearPedido } from '../api/index.js';
 
 const contenedorCatalogo = document.getElementById('catalogo-productos');
 const cargador = document.getElementById('loader-productos');
 const contadorTotalProductos = document.getElementById('total-productos-count');
+const btnConfirmarCompra = document.getElementById('btn-confirmar-compra');
+
+const productosSeleccionados = [];
+let productosCatalogo = [];
 
 function formatearMoneda(valor) {
     return new Intl.NumberFormat('es-AR', {
         style: 'currency',
         currency: 'ARS'
     }).format(valor);
+}
+
+const totalSeleccion = document.getElementById('total-seleccion');
+
+function calcularTotalSeleccionados() {
+    return productosSeleccionados.reduce(function(total, producto) {
+        return total + (producto.precio || 0) * (producto.cantidad || 1);
+    }, 0);
+}
+
+function actualizarTotalSeleccionado() {
+    if (!totalSeleccion) return;
+    const total = calcularTotalSeleccionados();
+    totalSeleccion.textContent = `Total seleccionado: ${formatearMoneda(total)}`;
+}
+
+function actualizarBotonConfirmar() {
+    if (!btnConfirmarCompra) return;
+    btnConfirmarCompra.disabled = productosSeleccionados.length === 0;
+}
+
+async function confirmarCompra() {
+    if (productosSeleccionados.length === 0) return;
+
+    const pedido = {
+        usuarioId: '1',
+        fecha: new Date().toISOString(),
+        estado: 'pendiente',
+        total: calcularTotalSeleccionados(),
+        items: productosSeleccionados.map(function(producto) {
+            return {
+                id: producto.id,
+                nombre: producto.nombre,
+                precio: producto.precio,
+                cantidad: producto.cantidad
+            };
+        })
+    };
+
+    try {
+        const respuesta = await crearPedido(pedido);
+        console.log('Pedido creado:', respuesta);
+        alert('Compra confirmada. Pedido enviado correctamente.');
+        productosSeleccionados.length = 0;
+        actualizarTotalSeleccionado();
+        actualizarBotonConfirmar();
+    } catch (error) {
+        console.error('Error al confirmar compra:', error);
+        alert('No se pudo enviar el pedido. Intenta nuevamente.');
+    }
 }
 
 function renderizarCatalogo(productos) {
@@ -71,13 +125,57 @@ function renderizarCatalogo(productos) {
     });
 }
 
+function agregarProductoSeleccionado(producto) {
+    const productoGuardado = productosSeleccionados.find(function(item) {
+        return item.id === producto.id;
+    });
+
+    if (productoGuardado) {
+        productoGuardado.cantidad = (productoGuardado.cantidad || 1) + 1;
+    } else {
+        productosSeleccionados.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            stock: producto.stock,
+            cantidad: 1
+        });
+    }
+
+    console.log('Productos seleccionados:', productosSeleccionados);
+    actualizarTotalSeleccionado();
+    actualizarBotonConfirmar();
+}
+
+contenedorCatalogo.addEventListener('click', function(event) {
+    const boton = event.target.closest('.add-to-cart-btn');
+    if (!boton) return;
+
+    const idProducto = boton.dataset.id;
+    const producto = productosCatalogo.find(function(item) {
+        return item.id === idProducto;
+    });
+
+    if (!producto) return;
+    agregarProductoSeleccionado(producto);
+});
+
+if (btnConfirmarCompra) {
+    btnConfirmarCompra.addEventListener('click', function() {
+        confirmarCompra();
+    });
+}
+
 async function inicializarCatalogo() {
     try {
         const listaProductos = await obtenerProductos();
+        productosCatalogo = listaProductos;
         
         contadorTotalProductos.textContent = `${listaProductos.length} productos encontrados`;
 
         renderizarCatalogo(listaProductos);
+        actualizarTotalSeleccionado();
+        actualizarBotonConfirmar();
         
         cargador.classList.add('d-none');
         contenedorCatalogo.classList.remove('d-none');
