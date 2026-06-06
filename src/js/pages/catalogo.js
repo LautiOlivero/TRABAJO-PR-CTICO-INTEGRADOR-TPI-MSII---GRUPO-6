@@ -1,4 +1,5 @@
 import { obtenerProductos, crearPedido } from '../api/index.js';
+import { Pedido } from '../models/Pedido.js';
 
 const contenedorCatalogo = document.getElementById('catalogo-productos');
 const cargador = document.getElementById('loader-productos');
@@ -18,7 +19,7 @@ function formatearMoneda(valor) {
 const totalSeleccion = document.getElementById('total-seleccion');
 
 function calcularTotalSeleccionados() {
-    return productosSeleccionados.reduce(function(total, producto) {
+    return productosSeleccionados.reduce(function (total, producto) {
         return total + (producto.precio || 0) * (producto.cantidad || 1);
     }, 0);
 }
@@ -37,25 +38,36 @@ function actualizarBotonConfirmar() {
 async function confirmarCompra() {
     if (productosSeleccionados.length === 0) return;
 
-    const pedido = {
-        usuarioId: '1',
-        fecha: new Date().toISOString(),
-        estado: 'pendiente',
-        total: calcularTotalSeleccionados(),
-        items: productosSeleccionados.map(function(producto) {
-            return {
-                id: producto.id,
-                nombre: producto.nombre,
-                precio: producto.precio,
-                cantidad: producto.cantidad
-            };
-        })
-    };
+    const itemsDelPedido = productosSeleccionados.map(function (producto) {
+        return {
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            cantidad: producto.cantidad
+        };
+    });
+
+    // Instanciamos el modelo Pedido con los datos básicos
+    const pedido = new Pedido(
+        null,           // id (MockAPI lo genera)
+        '1',            // usuarioId fijo por ahora
+        itemsDelPedido  // los items que armamos arriba
+    );
+
+    // Asignamos el total calculado por ahora (hasta que apliquemos cupones en la US-01)
+    pedido.montoSubtotal = calcularTotalSeleccionados();
+    pedido.montoTotal = calcularTotalSeleccionados();
 
     try {
         const respuesta = await crearPedido(pedido);
         console.log('Pedido creado:', respuesta);
-        alert('Compra confirmada. Pedido enviado correctamente.');
+
+        // Mostrar el modal de éxito en lugar del alert
+        document.getElementById('numero-pedido-modal').textContent = respuesta.id;
+        const modalElement = document.getElementById('modalExitoPedido');
+        const modalExito = new window.bootstrap.Modal(modalElement);
+        modalExito.show();
+
         productosSeleccionados.length = 0;
         actualizarTotalSeleccionado();
         actualizarBotonConfirmar();
@@ -77,7 +89,7 @@ function renderizarCatalogo(productos) {
         return;
     }
 
-    productos.forEach(function(producto) {
+    productos.forEach(function (producto) {
         const columnaTarjeta = document.createElement('div');
         columnaTarjeta.className = 'col';
 
@@ -126,7 +138,7 @@ function renderizarCatalogo(productos) {
 }
 
 function agregarProductoSeleccionado(producto) {
-    const productoGuardado = productosSeleccionados.find(function(item) {
+    const productoGuardado = productosSeleccionados.find(function (item) {
         return item.id === producto.id;
     });
 
@@ -147,12 +159,12 @@ function agregarProductoSeleccionado(producto) {
     actualizarBotonConfirmar();
 }
 
-contenedorCatalogo.addEventListener('click', function(event) {
+contenedorCatalogo.addEventListener('click', function (event) {
     const boton = event.target.closest('.add-to-cart-btn');
     if (!boton) return;
 
     const idProducto = boton.dataset.id;
-    const producto = productosCatalogo.find(function(item) {
+    const producto = productosCatalogo.find(function (item) {
         return item.id === idProducto;
     });
 
@@ -161,7 +173,7 @@ contenedorCatalogo.addEventListener('click', function(event) {
 });
 
 if (btnConfirmarCompra) {
-    btnConfirmarCompra.addEventListener('click', function() {
+    btnConfirmarCompra.addEventListener('click', function () {
         confirmarCompra();
     });
 }
@@ -170,13 +182,13 @@ async function inicializarCatalogo() {
     try {
         const listaProductos = await obtenerProductos();
         productosCatalogo = listaProductos;
-        
+
         contadorTotalProductos.textContent = `${listaProductos.length} productos encontrados`;
 
         renderizarCatalogo(listaProductos);
         actualizarTotalSeleccionado();
         actualizarBotonConfirmar();
-        
+
         cargador.classList.add('d-none');
         contenedorCatalogo.classList.remove('d-none');
     } catch (error) {
