@@ -102,4 +102,7 @@ export async function crearReenvio(datosReenvio) {
         if (!response.ok) throw new Error('Error al registrar el reenvío');
         return await response.json();
     } catch (error) {
-        console.error('API Error (Reenvíos):', error)
+        console.error('API Error (Reenvíos):', error);
+        throw error;
+    }
+}
