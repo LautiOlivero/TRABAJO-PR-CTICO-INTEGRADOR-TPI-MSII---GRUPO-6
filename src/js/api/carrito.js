@@ -57,7 +57,7 @@ export async function eliminarDelCarrito(idElemento) {
 export async function vaciarCarrito() {
     try {
         const elementos = await obtenerCarrito();
-        const promesasDeEliminacion = elementos.map(function(elemento) {
+        const promesasDeEliminacion = elementos.map(function (elemento) {
             return eliminarDelCarrito(elemento.id);
         });
         await Promise.all(promesasDeEliminacion);

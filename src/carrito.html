@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - Body Paint</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <!-- Navegación Común -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <span class="text-primary">Body</span> Paint
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Mis Pedidos</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="carrito.html" class="btn btn-primary position-relative">
+                        Ir al Carrito
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección Principal: Carrito -->
+    <main class="container my-5">
+        <h2 class="h3 fw-bold text-dark border-bottom border-primary border-3 pb-2 mb-4">Tu Carrito de Compras</h2>
+
+        <div class="row">
+            <!-- Columna de Productos -->
+            <div class="col-lg-8 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-carrito">
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4 text-muted">Cargando carrito...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna de Resumen y Pago -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-primary">
+                    <div class="card-header bg-primary text-white fw-bold">
+                        Resumen del Pedido
+                    </div>
+                    <div class="card-body">
+                        <!-- US-01: Campo de Cupones -->
+                        <label class="form-label small fw-bold text-muted">Código de descuento</label>
+                        <div class="input-group input-group-sm mb-2">
+                            <input type="text" class="form-control" id="input-cupon" placeholder="Ej: PROMO10">
+                            <button class="btn btn-outline-secondary" type="button"
+                                id="btn-aplicar-cupon">Aplicar</button>
+                        </div>
+                        <div id="mensaje-cupon" class="small text-danger mb-4 d-none"></div>
+                        <!-- Fin US-01 -->
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Subtotal:</span>
+                            <span class="fw-bold" id="resumen-subtotal">ARS 0,00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 text-success d-none" id="contenedor-descuento">
+                            <span>Descuento:</span>
+                            <span class="fw-bold" id="resumen-descuento">- ARS 0,00</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-4 border-top pt-2">
+                            <span class="fs-5 fw-bold text-dark">Total:</span>
+                            <span class="fs-5 fw-bold text-primary" id="resumen-total">ARS 0,00</span>
+                        </div>
+
+                        <button id="btn-confirmar-compra" class="btn btn-success w-100 fw-bold py-2 shadow-sm" disabled>
+                            Confirmar Compra
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Feedback de Pedido -->
+    <div class="modal fade" id="modalExitoPedido" tabindex="-1" aria-labelledby="modalExitoPedidoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-success">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalExitoPedidoLabel">¡Compra Exitosa!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
+                        class="bi bi-check-circle text-success mb-3" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                            d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                    </svg>
+                    <h4>¡Pedido realizado con éxito!</h4>
+                    <p class="lead mt-3">Tu número de pedido es: <strong id="numero-pedido-modal"
+                            class="text-primary fs-3"></strong></p>
+                    <p class="text-muted small">Puedes hacer el seguimiento o iniciar un reclamo desde la pestaña "Mis
+                        Pedidos".</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal"
+                        id="btn-cerrar-modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle (JS + Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <!-- Script principal de la página (Carrito y Lógica) -->
+    <script type="module" src="js/pages/carrito.js"></script>
+</body>
+
+</html>

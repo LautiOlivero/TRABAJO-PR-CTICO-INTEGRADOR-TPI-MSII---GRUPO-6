@@ -38,13 +38,9 @@
                     </li>
                 </ul>
                 <div class="d-flex align-items-center">
-                    <button class="btn btn-outline-light position-relative" type="button">
-                        Carrito
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
-                            id="badge-carrito">
-                            0
-                        </span>
-                    </button>
+                    <a href="carrito.html" class="btn btn-outline-light position-relative">
+                        Ver Carrito
+                    </a>
                 </div>
             </div>
         </div>
@@ -67,8 +63,6 @@
                     <h2 class="h3 fw-bold text-dark border-bottom border-primary border-3 pb-2">Nuestros Productos</h2>
                     <div class="text-end">
                         <div class="text-muted" id="total-productos-count">Cargando catálogo...</div>
-                        <div class="text-muted" id="total-seleccion">Total seleccionado: ARS 0</div>
-                        <button id="btn-confirmar-compra" class="btn btn-success btn-sm mt-2">Confirmar Compra</button>
                     </div>
                 </div>
 
@@ -96,35 +90,7 @@
         </div>
     </footer>
 
-    <!-- Modal de Feedback de Pedido -->
-    <div class="modal fade" id="modalExitoPedido" tabindex="-1" aria-labelledby="modalExitoPedidoLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-success">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title" id="modalExitoPedidoLabel">¡Compra Exitosa!</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center py-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
-                        class="bi bi-check-circle text-success mb-3" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                        <path
-                            d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
-                    </svg>
-                    <h4>¡Pedido realizado con éxito!</h4>
-                    <p class="lead mt-3">Tu número de pedido es: <strong id="numero-pedido-modal"
-                            class="text-primary fs-3"></strong></p>
-                    <p class="text-muted small">Puedes hacer el seguimiento o iniciar un reclamo desde la pestaña "Mis
-                        Pedidos".</p>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal">Aceptar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- (El modal de éxito ahora vive en carrito.html) -->
 
     <!-- Bootstrap 5 Bundle (JS + Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

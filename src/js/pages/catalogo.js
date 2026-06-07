@@ -1,12 +1,10 @@
-import { obtenerProductos, crearPedido } from '../api/index.js';
-import { Pedido } from '../models/Pedido.js';
+import { obtenerProductos } from '../api/index.js';
+import { agregarAlCarrito } from '../api/carrito.js';
 
 const contenedorCatalogo = document.getElementById('catalogo-productos');
 const cargador = document.getElementById('loader-productos');
 const contadorTotalProductos = document.getElementById('total-productos-count');
-const btnConfirmarCompra = document.getElementById('btn-confirmar-compra');
 
-const productosSeleccionados = [];
 let productosCatalogo = [];
 
 function formatearMoneda(valor) {
@@ -14,67 +12,6 @@ function formatearMoneda(valor) {
         style: 'currency',
         currency: 'ARS'
     }).format(valor);
-}
-
-const totalSeleccion = document.getElementById('total-seleccion');
-
-function calcularTotalSeleccionados() {
-    return productosSeleccionados.reduce(function (total, producto) {
-        return total + (producto.precio || 0) * (producto.cantidad || 1);
-    }, 0);
-}
-
-function actualizarTotalSeleccionado() {
-    if (!totalSeleccion) return;
-    const total = calcularTotalSeleccionados();
-    totalSeleccion.textContent = `Total seleccionado: ${formatearMoneda(total)}`;
-}
-
-function actualizarBotonConfirmar() {
-    if (!btnConfirmarCompra) return;
-    btnConfirmarCompra.disabled = productosSeleccionados.length === 0;
-}
-
-async function confirmarCompra() {
-    if (productosSeleccionados.length === 0) return;
-
-    const itemsDelPedido = productosSeleccionados.map(function (producto) {
-        return {
-            id: producto.id,
-            nombre: producto.nombre,
-            precio: producto.precio,
-            cantidad: producto.cantidad
-        };
-    });
-
-    // Instanciamos el modelo Pedido con los datos básicos
-    const pedido = new Pedido(
-        null,           // id (MockAPI lo genera)
-        '1',            // usuarioId fijo por ahora
-        itemsDelPedido  // los items que armamos arriba
-    );
-
-    // Asignamos el total calculado por ahora (hasta que apliquemos cupones en la US-01)
-    pedido.montoSubtotal = calcularTotalSeleccionados();
-    pedido.montoTotal = calcularTotalSeleccionados();
-
-    try {
-        const respuesta = await crearPedido(pedido);
-        console.log('Pedido creado:', respuesta);
-
-        // Mostrar el modal de éxito en lugar del alert
-        document.getElementById('numero-pedido-modal').textContent = respuesta.id;
-        const modalElement = document.getElementById('modalExitoPedido');
-        const modalExito = new window.bootstrap.Modal(modalElement);
-        modalExito.show();
-
-        productosSeleccionados.length = 0;
-        actualizarTotalSeleccionado();
-        actualizarBotonConfirmar();
-    } catch (error) {
-        console.error('Error al confirmar compra:', error);
-        alert('No se pudo enviar el pedido. Intenta nuevamente.');
-    }
 }
 
 function renderizarCatalogo(productos) {
@@ -137,26 +74,37 @@ function renderizarCatalogo(productos) {
     });
 }
 
-function agregarProductoSeleccionado(producto) {
-    const productoGuardado = productosSeleccionados.find(function (item) {
-        return item.id === producto.id;
-    });
+async function agregarProductoSeleccionado(producto, boton) {
+    boton.disabled = true;
+    const textoOriginal = boton.innerHTML;
+    boton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Agregando...`;
 
-    if (productoGuardado) {
-        productoGuardado.cantidad = (productoGuardado.cantidad || 1) + 1;
-    } else {
-        productosSeleccionados.push({
-            id: producto.id,
+    try {
+        await agregarAlCarrito({
+            idProducto: producto.id,
             nombre: producto.nombre,
             precio: producto.precio,
-            stock: producto.stock,
+            imagen: producto.imagen,
             cantidad: 1
         });
-    }
 
-    console.log('Productos seleccionados:', productosSeleccionados);
-    actualizarTotalSeleccionado();
-    actualizarBotonConfirmar();
+        boton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/></svg> Agregado`;
+        boton.classList.remove('btn-primary');
+        boton.classList.add('btn-success');
+
+        setTimeout(() => {
+            boton.innerHTML = textoOriginal;
+            boton.classList.remove('btn-success');
+            boton.classList.add('btn-primary');
+            boton.disabled = false;
+        }, 1500);
+
+    } catch (error) {
+        console.error('Error al agregar al carrito:', error);
+        alert('No se pudo agregar el producto al carrito.');
+        boton.innerHTML = textoOriginal;
+        boton.disabled = false;
+    }
 }
 
 contenedorCatalogo.addEventListener('click', function (event) {
@@ -169,14 +117,8 @@ contenedorCatalogo.addEventListener('click', function (event) {
     });
 
     if (!producto) return;
-    agregarProductoSeleccionado(producto);
+    agregarProductoSeleccionado(producto, boton);
 });
-
-if (btnConfirmarCompra) {
-    btnConfirmarCompra.addEventListener('click', function () {
-        confirmarCompra();
-    });
-}
 
 async function inicializarCatalogo() {
     try {
@@ -186,8 +128,6 @@ async function inicializarCatalogo() {
         contadorTotalProductos.textContent = `${listaProductos.length} productos encontrados`;
 
         renderizarCatalogo(listaProductos);
-        actualizarTotalSeleccionado();
-        actualizarBotonConfirmar();
 
         cargador.classList.add('d-none');
         contenedorCatalogo.classList.remove('d-none');

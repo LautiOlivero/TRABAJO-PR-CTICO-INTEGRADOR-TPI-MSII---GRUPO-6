@@ -12,4 +12,14 @@ export class Cupon {
         this.tipo = tipo;
         this.usado = usado;
     }
+
+    calcularDescuento(montoBase) {
+        if (this.usado) return 0;
+        if (this.tipo === "porcentaje") {
+            return (montoBase * this.valor) / 100;
+        } else if (this.tipo === "fijo") {
+            return this.valor > montoBase ? montoBase : this.valor;
+        }
+        return 0;
+    }
 }
