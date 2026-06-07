@@ -1,4 +1,4 @@
-import { URL_BASE_CARRITO_Y_PEDIDOS, URL_BASE_ADICIONAL, URL_BASE_RECLAMOS, URL_BASE_REENVIOS } from './config.js';
+import { URL_BASE_CARRITO_Y_PEDIDOS, URL_BASE_ADICIONAL, URL_BASE_CUPONES_Y_RECLAMOS, URL_BASE_REENVIOS } from './config.js';
 
 export async function obtenerPedidos() {
     try {
@@ -28,7 +28,7 @@ export async function crearPedido(datosPedido) {
 
 export async function obtenerCupones() {
     try {
-        const response = await fetch(`${URL_BASE_ADICIONAL}/cupones`);
+        const response = await fetch(`${URL_BASE_CUPONES_Y_RECLAMOS}/cupones`);
         if (!response.ok) throw new Error('Error al obtener los cupones');
         return await response.json();
     } catch (error) {
@@ -42,7 +42,7 @@ export async function obtenerCupones() {
 
 export async function crearReclamo(datosReclamo) {
     try {
-        const response = await fetch(`${URL_BASE_RECLAMOS}/reclamos`, {
+        const response = await fetch(`${URL_BASE_CUPONES_Y_RECLAMOS}/reclamos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosReclamo)
@@ -68,7 +68,7 @@ export async function obtenerPedidoPorId(idPedido) {
 
 export async function obtenerReclamos() {
     try {
-        const response = await fetch(`${URL_BASE_RECLAMOS}/reclamos`);
+        const response = await fetch(`${URL_BASE_CUPONES_Y_RECLAMOS}/reclamos`);
         if (!response.ok) throw new Error('Error al obtener los reclamos');
         return await response.json();
     } catch (error) {
