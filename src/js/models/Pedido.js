@@ -19,9 +19,20 @@ export class Pedido {
         this.fechaCreacion = fechaCreacion;
         this.fechaEntrega = fechaEntrega;
 
-        // El cálculo de totales se implementará en la US-01
-        this.montoSubtotal = 0;
-        this.montoDescuento = 0;
-        this.montoTotal = 0;
+        // El cálculo de totales se hace dinámicamente
+        this.montoSubtotal = this.calcularSubtotal();
+        this.montoDescuento = this.calcularMontoDescuento();
+        this.montoTotal = this.montoSubtotal - this.montoDescuento;
+    }
+
+    calcularSubtotal() {
+        return this.items.reduce((total, item) => total + ((item.precio || 0) * (item.cantidad || 1)), 0);
+    }
+
+    calcularMontoDescuento() {
+        if (this.cuponAplicado && typeof this.cuponAplicado.calcularDescuento === 'function') {
+            return this.cuponAplicado.calcularDescuento(this.montoSubtotal);
+        }
+        return 0;
     }
 }

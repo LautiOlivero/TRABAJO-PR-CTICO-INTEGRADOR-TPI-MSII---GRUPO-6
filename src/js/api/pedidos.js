@@ -34,8 +34,8 @@ export async function obtenerCupones() {
     } catch (error) {
         console.warn('API Warning (Cupones no configurados):', error);
         return [
-            { id: "1", codigo: "DESCUENTO10", valor: 10, tipo: "porcentaje" },
-            { id: "2", codigo: "EFECTIVO500", valor: 500, tipo: "fijo" }
+            { id: "1", codigo: "DESCUENTO10", valor: 10, tipo: "porcentaje", usado: false },
+            { id: "2", codigo: "EFECTIVO500", valor: 500, tipo: "fijo", usado: false }
         ];
     }
 }
