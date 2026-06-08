@@ -1,5 +1,5 @@
 import { obtenerProductos } from '../api/index.js';
-import { agregarAlCarrito } from '../api/carrito.js';
+import { agregarAlCarrito, obtenerCarrito, actualizarCantidadCarrito } from '../api/carrito.js';
 
 const contenedorCatalogo = document.getElementById('catalogo-productos');
 const cargador = document.getElementById('loader-productos');
@@ -80,13 +80,20 @@ async function agregarProductoSeleccionado(producto, boton) {
     boton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Agregando...`;
 
     try {
-        await agregarAlCarrito({
-            idProducto: producto.id,
-            nombre: producto.nombre,
-            precio: producto.precio,
-            imagen: producto.imagen,
-            cantidad: 1
-        });
+        const carrito = await obtenerCarrito();
+        const productoEnCarrito = carrito.find(item => item.idProducto === producto.id);
+
+        if (productoEnCarrito) {
+            await actualizarCantidadCarrito(productoEnCarrito.id, Number(productoEnCarrito.cantidad) + 1);
+        } else {
+            await agregarAlCarrito({
+                idProducto: producto.id,
+                nombre: producto.nombre,
+                precio: producto.precio,
+                imagen: producto.imagen,
+                cantidad: 1
+            });
+        }
 
         boton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/></svg> Agregado`;
         boton.classList.remove('btn-primary');
