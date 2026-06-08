@@ -139,9 +139,13 @@ btnAplicarCupon.addEventListener('click', async function () {
 
     try {
         const cuponesDisponibles = await obtenerCupones();
-        const cuponEncontrado = cuponesDisponibles.find(c => c.codigo.toUpperCase() === codigoIngresado);
+        const cuponEncontrado = cuponesDisponibles.find(c =>
+            c.codigo.toUpperCase() === codigoIngresado &&
+            !c.usado &&
+            c.estado === "activo"
+        );
 
-        if (cuponEncontrado && !cuponEncontrado.usado) {
+        if (cuponEncontrado) {
             cuponActivo = new Cupon(
                 cuponEncontrado.id,
                 cuponEncontrado.codigo,
@@ -149,6 +153,7 @@ btnAplicarCupon.addEventListener('click', async function () {
                 cuponEncontrado.tipo,
                 cuponEncontrado.usado
             );
+            cuponActivo.datosOriginales = cuponEncontrado;
 
             mensajeCupon.textContent = "¡Cupón aplicado correctamente!";
             mensajeCupon.className = "small text-success mb-4 fw-bold";
@@ -183,12 +188,12 @@ btnConfirmarCompra.addEventListener('click', async function () {
 
         // Marcar cupón como usado en MockAPI si existe
         if (cuponActivo) {
-            await actualizarCupon(cuponActivo.id, {
-                codigo: cuponActivo.codigo,
-                valor: cuponActivo.valor,
-                tipo: cuponActivo.tipo,
-                usado: true
-            });
+            const cuponActualizado = {
+                ...cuponActivo.datosOriginales,
+                usado: true,
+                estado: "inactivo"
+            };
+            await actualizarCupon(cuponActivo.id, cuponActualizado);
             console.log('Cupón marcado como usado en la API.');
         }
 

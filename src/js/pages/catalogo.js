@@ -99,6 +99,8 @@ async function agregarProductoSeleccionado(producto, boton) {
         boton.classList.remove('btn-primary');
         boton.classList.add('btn-success');
 
+        await actualizarBadgeCarrito();
+
         setTimeout(() => {
             boton.innerHTML = textoOriginal;
             boton.classList.remove('btn-success');
@@ -138,6 +140,8 @@ async function inicializarCatalogo() {
 
         cargador.classList.add('d-none');
         contenedorCatalogo.classList.remove('d-none');
+        
+        await actualizarBadgeCarrito();
     } catch (error) {
         console.error('Error cargando el catálogo:', error);
         contadorTotalProductos.textContent = 'Error al cargar catálogo';
@@ -149,6 +153,24 @@ async function inicializarCatalogo() {
                 <button class="btn btn-outline-danger btn-sm" onclick="window.location.reload()">Reintentar</button>
             </div>
         `;
+    }
+}
+
+async function actualizarBadgeCarrito() {
+    try {
+        const carrito = await obtenerCarrito();
+        const totalItems = carrito.reduce((acc, item) => acc + Number(item.cantidad), 0);
+        const badge = document.getElementById('badge-carrito');
+        if (badge) {
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.classList.remove('d-none');
+            } else {
+                badge.classList.add('d-none');
+            }
+        }
+    } catch (error) {
+        console.error('Error al actualizar badge:', error);
     }
 }
 
