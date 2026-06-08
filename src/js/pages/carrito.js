@@ -235,7 +235,7 @@ async function inicializarCarrito() {
         actualizarTotales();
     } catch (error) {
         console.error('Error al cargar el carrito:', error);
-        tablaCarrito.innerHTML = `<tr><td colspan="4" class="text-danger text-center">Error al cargar el carrito.</td></tr>`;
+        tablaCarrito.innerHTML = `<tr><td colspan="5" class="text-danger text-center">Error al cargar el carrito.</td></tr>`;
     }
 }
 

@@ -1,4 +1,4 @@
-import { URL_BASE_CARRITO_Y_PEDIDOS, URL_BASE_ADICIONAL } from './config.js';
+import { URL_BASE_CARRITO_Y_PEDIDOS, URL_BASE_ADICIONAL, URL_BASE_CUPONES_Y_RECLAMOS, URL_BASE_REENVIOS } from './config.js';
 
 export async function obtenerPedidos() {
     try {
@@ -28,7 +28,7 @@ export async function crearPedido(datosPedido) {
 
 export async function obtenerCupones() {
     try {
-        const response = await fetch(`${URL_BASE_ADICIONAL}/cupones`);
+        const response = await fetch(`${URL_BASE_CUPONES_Y_RECLAMOS}/cupones`);
         if (!response.ok) throw new Error('Error al obtener los cupones');
         return await response.json();
     } catch (error) {
@@ -42,7 +42,7 @@ export async function obtenerCupones() {
 
 export async function actualizarCupon(cuponId, datosActualizados) {
     try {
-        const response = await fetch(`${URL_BASE_ADICIONAL}/cupones/${cuponId}`, {
+        const response = await fetch(`${URL_BASE_CUPONES_Y_RECLAMOS}/cupones/${cuponId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosActualizados)
@@ -57,7 +57,7 @@ export async function actualizarCupon(cuponId, datosActualizados) {
 
 export async function crearReclamo(datosReclamo) {
     try {
-        const response = await fetch(`${URL_BASE_ADICIONAL}/reclamos`, {
+        const response = await fetch(`${URL_BASE_CUPONES_Y_RECLAMOS}/reclamos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosReclamo)
@@ -70,9 +70,46 @@ export async function crearReclamo(datosReclamo) {
     }
 }
 
+export async function obtenerPedidoPorId(idPedido) {
+    try {
+        const response = await fetch(`${URL_BASE_CARRITO_Y_PEDIDOS}/pedidos/${idPedido}`);
+        if (!response.ok) throw new Error(`Error al obtener el pedido con ID ${idPedido}`);
+        return await response.json();
+    } catch (error) {
+        console.error(`API Error (Pedido ${idPedido}):`, error);
+        throw error;
+    }
+}
+
+export async function obtenerReclamos() {
+    try {
+        const response = await fetch(`${URL_BASE_CUPONES_Y_RECLAMOS}/reclamos`);
+        if (!response.ok) throw new Error('Error al obtener los reclamos');
+        return await response.json();
+    } catch (error) {
+        console.error('API Error (Reclamos GET):', error);
+        return [];
+    }
+}
+
+export async function actualizarEstadoPedido(idPedido, nuevoEstado) {
+    try {
+        const response = await fetch(`${URL_BASE_CARRITO_Y_PEDIDOS}/pedidos/${idPedido}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ estado: nuevoEstado })
+        });
+        if (!response.ok) throw new Error('Error al actualizar el estado del pedido');
+        return await response.json();
+    } catch (error) {
+        console.error('API Error (Actualizar Pedido):', error);
+        throw error;
+    }
+}
+
 export async function crearReenvio(datosReenvio) {
     try {
-        const response = await fetch(`${URL_BASE_ADICIONAL}/reenvios`, {
+        const response = await fetch(`${URL_BASE_REENVIOS}/reenvios`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosReenvio)
