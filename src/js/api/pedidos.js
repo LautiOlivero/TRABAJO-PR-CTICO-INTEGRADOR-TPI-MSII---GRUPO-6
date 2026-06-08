@@ -40,6 +40,21 @@ export async function obtenerCupones() {
     }
 }
 
+export async function actualizarCupon(cuponId, datosActualizados) {
+    try {
+        const response = await fetch(`${URL_BASE_ADICIONAL}/cupones/${cuponId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datosActualizados)
+        });
+        if (!response.ok) throw new Error('Error al actualizar el cupón');
+        return await response.json();
+    } catch (error) {
+        console.warn('API Warning (Fallo al actualizar cupón):', error);
+        return { ...datosActualizados, id: cuponId };
+    }
+}
+
 export async function crearReclamo(datosReclamo) {
     try {
         const response = await fetch(`${URL_BASE_ADICIONAL}/reclamos`, {
