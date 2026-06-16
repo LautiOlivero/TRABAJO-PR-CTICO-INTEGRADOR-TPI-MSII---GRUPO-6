@@ -100,8 +100,10 @@ function actualizarAlertaStock(items) {
     if (sinStockItems.length > 0) {
         listaSinStock.innerHTML = sinStockItems.map(i => `<li>${i.nombre}</li>`).join('');
         alertaStock.classList.remove('d-none');
+        btnEnviar.disabled = true;
     } else {
         alertaStock.classList.add('d-none');
+        btnEnviar.disabled = false;
     }
 }
 

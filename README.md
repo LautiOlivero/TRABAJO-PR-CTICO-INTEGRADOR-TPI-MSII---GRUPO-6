@@ -36,3 +36,12 @@ El sistema se construirá de manera iterativa. Para el primer nivel de completit
 ## 📅 Evaluación y Entrega
 El proyecto será evaluado en base a la calidad del análisis (User Stories), la correcta aplicación de Scrum, el correcto funcionamiento de los entregables en cada Sprint, y la claridad en las presentaciones (Sprint Reviews).
 - **Presentación final tentativa:** 08/06/2026.
+
+## 📄 Documentación del Proyecto
+
+El documento oficial de seguimiento y entrega del proyecto es el siguiente:
+
+- **[TPI-MSII-Grupo6-2.pdf]**: Contiene el detalle de los integrantes, links a Jira, el historial de Sprints, las decisiones de diseño, las estimaciones y las evidencias de las pruebas de aceptación.
+
+**Estado actual:** Sprints 0–3 documentados. US-01, US-02 y US-03 implementadas.
+
