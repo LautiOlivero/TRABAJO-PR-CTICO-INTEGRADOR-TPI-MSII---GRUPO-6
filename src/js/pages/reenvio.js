@@ -30,6 +30,24 @@ function mostrarError(mensaje) {
     errorAcceso.classList.remove('d-none');
 }
 
+// CP-18: alerta de bloqueo por falta de stock (aparece sobre la tabla, no oculta el contenido)
+function mostrarAlertaBloqueo(mensaje) {
+    let alerta = document.getElementById('alerta-bloqueo-stock');
+    if (!alerta) {
+        alerta = document.createElement('div');
+        alerta.id = 'alerta-bloqueo-stock';
+        alerta.className = 'alert alert-danger fw-bold mt-3';
+        alerta.setAttribute('role', 'alert');
+        document.getElementById('contenedor-items').insertAdjacentElement('afterend', alerta);
+    }
+    alerta.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-x-circle-fill me-2" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+        </svg>
+        Operación rechazada: ${mensaje}`;
+    alerta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 function estaEntregado(estado) {
     return estado === 'Entregado' || estado === 'entregado';
 }
@@ -132,6 +150,16 @@ btnEnviar.addEventListener('click', async function () {
 
     if (esAlcanceParcial && itemsSeleccionados.length === 0) {
         alert('Seleccioná al menos un producto para el reenvío.');
+        return;
+    }
+
+    // CP-18: Bloquear si algún item seleccionado no tiene stock disponible
+    const sinStock = itemsSeleccionados.filter(item =>
+        stockMap[item.idProducto] !== undefined && stockMap[item.idProducto] === 0
+    );
+    if (sinStock.length > 0) {
+        const nombres = sinStock.map(i => i.nombre).join(', ');
+        mostrarAlertaBloqueo(`No hay stock disponible para el reenvío inmediato de: ${nombres}. La operación no puede procesarse.`);
         return;
     }
 
