@@ -160,7 +160,7 @@ btnAplicarCupon.addEventListener('click', async function () {
             actualizarTotales();
         } else {
             cuponActivo = null;
-            mensajeCupon.textContent = "Cupón inválido o ya utilizado.";
+            mensajeCupon.textContent = "Este cupón ya ha sido utilizado.";
             mensajeCupon.className = "small text-danger mb-4 fw-bold";
             actualizarTotales();
         }

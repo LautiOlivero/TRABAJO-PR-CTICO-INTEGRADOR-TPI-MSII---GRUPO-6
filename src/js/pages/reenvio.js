@@ -82,8 +82,10 @@ function actualizarAlertaStock(items) {
     if (sinStockItems.length > 0) {
         listaSinStock.innerHTML = sinStockItems.map(i => `<li>${i.nombre}</li>`).join('');
         alertaStock.classList.remove('d-none');
+        btnEnviar.disabled = true;
     } else {
         alertaStock.classList.add('d-none');
+        btnEnviar.disabled = false;
     }
 }
 
@@ -132,6 +134,16 @@ btnEnviar.addEventListener('click', async function () {
 
     if (esAlcanceParcial && itemsSeleccionados.length === 0) {
         alert('Seleccioná al menos un producto para el reenvío.');
+        return;
+    }
+
+    const sinStockSeleccionados = itemsSeleccionados.filter(item => {
+        const stock = stockMap[item.idProducto];
+        return stock !== undefined && stock === 0;
+    });
+
+    if (sinStockSeleccionados.length > 0) {
+        alert('No podés enviar una solicitud con productos sin stock.');
         return;
     }
 
